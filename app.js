@@ -12,6 +12,14 @@ var authenticateToken = require('./routes/middlewares/validate_token');
 
 var app = express();
 
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", "default-src 'self';");
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.removeHeader("X-Powered-By");
+  next();
+});
+
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
