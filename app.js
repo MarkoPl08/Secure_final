@@ -1,16 +1,19 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var registerRouter = require('./routes/register');
-var loginRouter = require('./routes/login');
-var authenticateToken = require('./routes/middlewares/validate_token');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const registerRouter = require('./routes/register');
+const loginRouter = require('./routes/login');
+const authenticateToken = require('./routes/middlewares/validate_token');
 
-var app = express();
+const serialization = require('./routes/serialize');
+const deserialization = require('./routes/deserialize');
+
+const app = express();
 
 app.use((req, res, next) => {
   res.setHeader("Content-Security-Policy", "default-src 'self';");
@@ -37,6 +40,8 @@ app.use('/users', authenticateToken, usersRouter);
 app.use('/users', usersRouter);
 app.use('/auth/register', registerRouter);
 app.use('/auth', loginRouter);
+app.use('/serialize', serialization);
+app.use('/deserialize', deserialization);
 
 // Protected Route Example
 app.get('/protected', authenticateToken, (req, res) => {
