@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
+    //const unsafeQuery = `SELECT * FROM students WHERE email = '${email}'`;
     db.query('SELECT * FROM students WHERE email = ?', [email], async (error, results) => {
         if (error) return res.status(500).send('Database error');
         if (results.length === 0 || !(await bcrypt.compare(password, results[0].password))) {

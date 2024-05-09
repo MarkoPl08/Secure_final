@@ -1,12 +1,18 @@
 const express = require('express');
-const User = require('../serialization/User');
+const allowedClasses = require('../serialization/whitelist');
 const router = express.Router();
 
-function deserializeUser(serializedData) {
+function deserializeUser(className, serializedData) {
     try {
-        let userData = JSON.parse(serializedData);
+        const userData = JSON.parse(serializedData);
+        const Class = allowedClasses[className];
+
+        if (!Class) {
+            throw new Error('Unauthorized deserialization attempt');
+        }
+
         if (userData && typeof userData === 'object') {
-            return new User(userData.id, userData.username, userData.email);
+            return new Class(userData.id, userData.username, userData.email);
         }
     } catch (error) {
         throw new Error('Failed to deserialize user: ' + error.message);
@@ -15,7 +21,8 @@ function deserializeUser(serializedData) {
 
 router.post('/', (req, res) => {
     try {
-        const user = deserializeUser(req.body.serializedUser);
+        const { className, serializedUser } = req.body;
+        const user = deserializeUser(className, serializedUser);
         res.json(user);
     } catch (error) {
         res.status(400).send(error.message);

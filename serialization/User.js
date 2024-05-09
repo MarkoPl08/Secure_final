@@ -4,14 +4,6 @@ class User {
         this.username = username;
         this.email = email;
     }
-
-    toJSON() {
-        return {
-            id: this.id,
-            username: this.username,
-            email: this.email
-        };
-    }
 }
 
 module.exports = User;
