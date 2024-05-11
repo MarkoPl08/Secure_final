@@ -1,9 +1,9 @@
 class Article {
-    constructor(id, title, content, authorId) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.authorId = authorId;
+    constructor(data) {
+        this.id = data.id;
+        this.title = data.title;
+        this.content = data.content;
+        this.authorId = data.authorId;
     }
 }
 

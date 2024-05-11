@@ -1,9 +1,9 @@
 class Manager {
-    constructor(id, username, email, department) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.department = department;
+    constructor(data) {
+        this.id = data.id;
+        this.username = data.username;
+        this.email = data.email;
+        this.department = data.department;
     }
 }
 

@@ -1,9 +1,9 @@
 class Administrator {
-    constructor(id, username, email, level) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.level = level;
+    constructor(data) {
+        this.id = data.id;
+        this.username = data.username;
+        this.email = data.email;
+        this.level = data.level;
     }
 }
 

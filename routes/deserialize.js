@@ -5,25 +5,25 @@ const router = express.Router();
 function deserializeUser(className, serializedData) {
     try {
         const userData = JSON.parse(serializedData);
-        const Class = allowedClasses[className];
+        const classConfig = allowedClasses[className];
 
-        if (!Class) {
-            throw new Error('Unauthorized deserialization attempt');
+        if (!classConfig || !classConfig.validate(userData)) {
+            throw new Error('Unauthorized deserialization attempt or data validation failed');
         }
 
-        if (userData && typeof userData === 'object') {
-            return new Class(userData.id, userData.username, userData.email);
-        }
+        return classConfig.handle(userData);
     } catch (error) {
-        throw new Error('Failed to deserialize user: ' + error.message);
+        throw new Error('Failed to deserialize object: ' + error.message);
     }
 }
+
+
 
 router.post('/', (req, res) => {
     try {
         const { className, serializedUser } = req.body;
-        const user = deserializeUser(className, serializedUser);
-        res.json(user);
+        const object = deserializeUser(className, serializedUser);
+        res.json(object);
     } catch (error) {
         res.status(400).send(error.message);
     }

@@ -1,9 +1,9 @@
 class Comment {
-    constructor(id, articleId, content, commenterId) {
-        this.id = id;
-        this.articleId = articleId;
-        this.content = content;
-        this.commenterId = commenterId;
+    constructor(data) {
+        this.id = data.id;
+        this.articleId = data.articleId;
+        this.content = data.content;
+        this.commenterId = data.commenterId;
     }
 }
 

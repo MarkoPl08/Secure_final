@@ -1,7 +1,7 @@
 class Guest {
-    constructor(id, name) {
-        this.id = id;
-        this.name = name;
+    constructor(data) {
+        this.id = data.id;
+        this.name = data.name;
     }
 }
 
